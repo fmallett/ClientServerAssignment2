@@ -131,7 +131,7 @@ public class TestClient {
 	public void testSymbolsUsedInBookTitles() throws IOException{ 
 		BufferedReader br = new BufferedReader(new FileReader("output.txt"));
 		//[] square brackets make the test fail
-		input = "Star Wars[]";
+		input = "Star Wars[]!$%^&*()";
 		client.getServer().add(input);
 		client.generateResults();
 		client.printLines();
@@ -141,7 +141,8 @@ public class TestClient {
 		//Ensures an output is provided
 		assertNotNull(line);
 		//Checks if the output file matches the input
-		assertTrue(line.contains(input));
+		assertTrue(line.contains("[]"));
+
 	}
 
 	@Test
