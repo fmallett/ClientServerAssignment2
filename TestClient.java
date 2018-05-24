@@ -1,11 +1,7 @@
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,13 +25,13 @@ public class TestClient {
 	public void testOutputIsProvidedWithValidInput() throws IOException{ 
 		BufferedReader br = new BufferedReader(new FileReader("output.txt"));
 
-		input = "Star wars\nThe Simpsons";
+		input = "Star wars\nThe Simpsons\nA Series Of Unfortunate Events";
 		client.getServer().add(input);
 		client.generateResults();
 		client.printLines();
 
 
-		//Checks where the output.txt file contains information
+		//Checks whether the output.txt file contains information
 		assertNotNull(br.readLine());
 		br.close();
 	}
@@ -68,22 +64,25 @@ public class TestClient {
 		assertNull(br.readLine());
 	}
 
-
 	@Test 
 	public void testCommasAreIgnored() throws IOException{ 
 		BufferedReader br = new BufferedReader(new FileReader("output.txt"));
 
-		input = "Ah, Wilderness!”";
+		input = "Ah, Wilderness!";
 		client.getServer().add(input);
 		client.generateResults();
 		client.printLines();
 
 		String line = br.readLine();
-
 		//Ensures an output is provided
 		assertNotNull(line);
 		//Checks if the output file contains a comma
 		assertFalse(line.contains(","));
+		//checks the output lines are in alphabetical order
+		assertEquals("Ah Wilderness!", line);
+		assertEquals("Wilderness! Ah", br.readLine());
+		//Ensure no duplicate lines
+		assertNull(br.readLine());
 	}
 
 	@Test 
@@ -125,10 +124,60 @@ public class TestClient {
 
 		//Test will fail if book titles with repeating words appear more than once in the output
 		assertTrue(containsOnce(input, output));
-
-		//Can change the title to "Mirror" to see the test pass
+//Can change the title to "Mirror" to see the test pass
 	}
 
+	@Test
+	public void testSymbolsUsedInBookTitles() throws IOException{ 
+		BufferedReader br = new BufferedReader(new FileReader("output.txt"));
+		//[] square brackets make the test fail
+		input = "Star Wars[]";
+		client.getServer().add(input);
+		client.generateResults();
+		client.printLines();
+
+		String line = br.readLine();
+		System.out.println(line);
+		//Ensures an output is provided
+		assertNotNull(line);
+		//Checks if the output file matches the input
+		assertTrue(line.contains(input));
+	}
+
+	@Test
+	public void testAnotherLanguge() throws IOException{ 
+		BufferedReader br = new BufferedReader(new FileReader("output.txt"));
+		input = "böse"; //German word
+		client.getServer().add(input);
+		client.generateResults();
+		client.printLines();
+
+		String line = br.readLine();
+		System.out.println(line);
+		//Ensures an output is provided
+		assertNotNull(line);
+		//Checks if the output file matches the input
+		assertTrue(line.contentEquals(input));
+	}
+	
+	@Test
+	public void testSingleCharacter() throws IOException{ 
+		BufferedReader br = new BufferedReader(new FileReader("output.txt"));
+		input = "f";
+		client.getServer().add(input);
+		client.generateResults();
+		client.printLines();
+
+		String line = br.readLine();
+		System.out.println(line);
+		//Ensures an output is provided
+		assertNotNull(line);
+		//Checks if the output file matches the input
+		assertTrue(line.contentEquals(input));
+		//Ensure there are no other lines outputted
+		assertNull(br.readLine());
+	}
+	
 
 	//Loops through an output array list for book titles
 	//returns true if a book title appears once in the list, false otherwise
