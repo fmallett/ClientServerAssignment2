@@ -142,25 +142,9 @@ public class TestClient {
 		assertNotNull(line);
 		//Checks if the output file matches the input
 		assertTrue(line.contains("[]"));
-
-	}
-
-	@Test
-	public void testAnotherLanguge() throws IOException{ 
-		BufferedReader br = new BufferedReader(new FileReader("output.txt"));
-		input = "böse"; //German word
-		client.getServer().add(input);
-		client.generateResults();
-		client.printLines();
-
-		String line = br.readLine();
-		System.out.println(line);
-		//Ensures an output is provided
-		assertNotNull(line);
-		//Checks if the output file matches the input
 		assertTrue(line.contentEquals(input));
 	}
-	
+
 	@Test
 	public void testSingleCharacter() throws IOException{ 
 		BufferedReader br = new BufferedReader(new FileReader("output.txt"));
@@ -179,7 +163,22 @@ public class TestClient {
 		assertNull(br.readLine());
 	}
 	
+	@Test
+	public void testAnotherLanguge() throws IOException{ 
+		BufferedReader br = new BufferedReader(new FileReader("output.txt"));
+		input = "böse"; //German word
+		client.getServer().add(input);
+		client.generateResults();
+		client.printLines();
 
+		String line = br.readLine();
+		System.out.println(line);
+		//Ensures an output is provided
+		assertNotNull(line);
+		//Checks if the output file matches the input
+		assertTrue(line.contentEquals(input));
+	}
+	
 	//Loops through an output array list for book titles
 	//returns true if a book title appears once in the list, false otherwise
 	public static boolean containsOnce(final String input, final ArrayList output) {
