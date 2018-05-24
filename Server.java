@@ -1,3 +1,5 @@
+package main.ClientServerAssignment2;
+
 import java.util.LinkedList;
 import java.util.*;
 /**
@@ -29,15 +31,31 @@ public class Server {
             inputWords.add(allWords[k]);
         }
 
-        //The LinkedList is iterated
-        for (int z = 0; z < inputWords.size(); z++)
-        {
-            //Results are generated
+        // Do not perform circular shift on words if the title
+        // consists of only the one word repeated
+        if (!allWordsIdentical(allWords)) {
+            //The LinkedList is iterated
+            for (int z = 0; z < inputWords.size(); z++)
+            {
+                //Results are generated
+                results.add(inputWords.toString());
+                //The last result is moved to be the first
+                inputWords.addLast(inputWords.getFirst());
+                //The first result is removed
+                inputWords.remove(0);
+            }
+        } else {
             results.add(inputWords.toString());
-            //The last result is moved to be the first
-            inputWords.addLast(inputWords.getFirst());
-            //The first result is removed
-            inputWords.remove(0);
         }
+
+    }
+
+    private boolean allWordsIdentical(String[] test) {
+        for (int i=0; i < test.length-1; i++) {
+            if (!test[i].equals(test[i+1]))
+                return false;
+        }
+
+        return true;
     }
 }

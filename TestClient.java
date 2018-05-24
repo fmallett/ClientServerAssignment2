@@ -1,3 +1,4 @@
+package main.ClientServerAssignment2;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -5,7 +6,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-
 
 /**
  *@Name Fiona Mallett
@@ -147,7 +147,7 @@ public class TestClient {
 	@Test
 	public void testAnotherLanguge() throws IOException{ 
 		BufferedReader br = new BufferedReader(new FileReader("output.txt"));
-		input = "böse"; //German word
+		input = "bï¿½se"; //German word
 		client.getServer().add(input);
 		client.generateResults();
 		client.printLines();

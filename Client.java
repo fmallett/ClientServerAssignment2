@@ -1,3 +1,5 @@
+package main.ClientServerAssignment2;
+
 import java.io.*;
 import java.util.LinkedList;
 
@@ -68,8 +70,9 @@ public class Client {
 
         //Iterates through the results given by the server
         for (String currentLine : temp) {
-            currentLine = currentLine.replace("[", "");
-            currentLine = currentLine.replace("]", "");
+            currentLine = currentLine.substring(1, currentLine.length()-2);
+            //currentLine = currentLine.replace("[", "");
+            //currentLine = currentLine.replace("]", "");
             currentLine = currentLine.replace(",", "");
             results.add(currentLine);
         }

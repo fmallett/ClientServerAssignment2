@@ -1,6 +1,7 @@
 /*
 This is the ClientServer implementation of the KWIC system. Please start here
  */
+package main.ClientServerAssignment2;
 
 public class ClientServer {
 
