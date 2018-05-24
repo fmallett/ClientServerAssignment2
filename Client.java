@@ -70,7 +70,7 @@ public class Client {
 
         //Iterates through the results given by the server
         for (String currentLine : temp) {
-            currentLine = currentLine.substring(1, currentLine.length()-2);
+            currentLine = currentLine.substring(1, currentLine.length()-1);
             //currentLine = currentLine.replace("[", "");
             //currentLine = currentLine.replace("]", "");
             currentLine = currentLine.replace(",", "");
