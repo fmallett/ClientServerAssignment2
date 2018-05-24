@@ -77,7 +77,7 @@ public class TestClient {
 		//Ensures an output is provided
 		assertNotNull(line);
 		//Checks if the output file contains a comma
-		assertFalse(line.contains(","));
+		assertTrue(line.contains(","));
 		//checks the output lines are in alphabetical order
 		assertEquals("Ah, Wilderness!", line);
 		assertEquals("Wilderness! Ah,", br.readLine());
@@ -166,7 +166,7 @@ public class TestClient {
 	@Test
 	public void testAnotherLanguge() throws IOException{ 
 		BufferedReader br = new BufferedReader(new FileReader("output.txt"));
-		input = "böse"; //German word
+		input = "bÃ¶se"; //German word
 		client.getServer().add(input);
 		client.generateResults();
 		client.printLines();
