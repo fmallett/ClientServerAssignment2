@@ -65,7 +65,7 @@ public class TestClient {
 	}
 
 	@Test 
-	public void testCommasAreIgnored() throws IOException{ 
+	public void testPunctuationMarksAreAllowed() throws IOException{ 
 		BufferedReader br = new BufferedReader(new FileReader("output.txt"));
 
 		input = "Ah, Wilderness!";
@@ -79,8 +79,8 @@ public class TestClient {
 		//Checks if the output file contains a comma
 		assertFalse(line.contains(","));
 		//checks the output lines are in alphabetical order
-		assertEquals("Ah Wilderness!", line);
-		assertEquals("Wilderness! Ah", br.readLine());
+		assertEquals("Ah, Wilderness!", line);
+		assertEquals("Wilderness! Ah,", br.readLine());
 		//Ensure no duplicate lines
 		assertNull(br.readLine());
 	}
