@@ -30,7 +30,7 @@ public class Server {
         {
             inputWords.add(allWords[k]);
         }
-        
+
         // Test to see if title already has been added to results:
         // if it has skip operation
         if (!results.contains(inputWords.toString())) {

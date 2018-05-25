@@ -65,7 +65,7 @@ public class TestClient {
 	}
 
 	@Test 
-	public void testCommasAreIgnored() throws IOException{ 
+	public void testPunctuationMarksAreAllowed() throws IOException{ 
 		BufferedReader br = new BufferedReader(new FileReader("output.txt"));
 
 		input = "Ah, Wilderness!";
@@ -77,10 +77,10 @@ public class TestClient {
 		//Ensures an output is provided
 		assertNotNull(line);
 		//Checks if the output file contains a comma
-		assertFalse(line.contains(","));
+		assertTrue(line.contains(","));
 		//checks the output lines are in alphabetical order
-		assertEquals("Ah Wilderness!", line);
-		assertEquals("Wilderness! Ah", br.readLine());
+		assertEquals("Ah, Wilderness!", line);
+		assertEquals("Wilderness! Ah,", br.readLine());
 		//Ensure no duplicate lines
 		assertNull(br.readLine());
 	}
@@ -95,7 +95,6 @@ public class TestClient {
 		client.printLines();
 
 		String line = br.readLine();
-
 		//Ensures an output is provided
 		assertNotNull(line);
 
@@ -121,10 +120,7 @@ public class TestClient {
 			output.add(line);
 			line = br.readLine();
 		}
-
-		//Test will fail if book titles with repeating words appear more than once in the output
 		assertTrue(containsOnce(input, output));
-//Can change the title to "Mirror" to see the test pass
 	}
 
 	@Test
@@ -142,7 +138,27 @@ public class TestClient {
 		assertNotNull(line);
 		//Checks if the output file matches the input
 		assertTrue(line.contains("[]"));
+		assertTrue(line.contentEquals(input));
+	}
 
+	@Test
+	public void testSingleCharacter() throws IOException{ 
+		BufferedReader br = new BufferedReader(new FileReader("output.txt"));
+		
+		input = "f";
+
+		client.getServer().add(input);
+		client.generateResults();
+		client.printLines();
+
+		String line = br.readLine();
+		System.out.println(line);
+		//Ensures an output is provided
+		assertNotNull(line);
+		//Checks if the output file matches the input
+		assertTrue(line.contentEquals(input));
+		//Ensure there are no other lines outputted
+		assertNull(br.readLine());
 	}
 
 	@Test
@@ -160,25 +176,32 @@ public class TestClient {
 		//Checks if the output file matches the input
 		assertTrue(line.contentEquals(input));
 	}
-	
+
+
 	@Test
-	public void testSingleCharacter() throws IOException{ 
+	public void testDuplicateTitles() throws IOException{ 
 		BufferedReader br = new BufferedReader(new FileReader("output.txt"));
-		input = "f";
+		String line = System.getProperty("line.separator");
+		input = "Button Moon";
+
 		client.getServer().add(input);
+		client.getServer().add("Row Row Row your boat");
+		client.getServer().add("Zebra Wars");
+		client.getServer().add("Button Moon"); //Here is the duplicate input
+
 		client.generateResults();
 		client.printLines();
 
-		String line = br.readLine();
-		System.out.println(line);
-		//Ensures an output is provided
-		assertNotNull(line);
-		//Checks if the output file matches the input
-		assertTrue(line.contentEquals(input));
-		//Ensure there are no other lines outputted
-		assertNull(br.readLine());
+
+		//Button Moon is first in alphabet so read the first line and verify that it is there
+		assertTrue(input.equals(br.readLine()));
+		String readLine = br.readLine();
+		//read all other lines and ensure "Button Moon" does not appear
+		while(readLine != null) {
+			assertFalse(input.equals(readLine));
+			readLine = br.readLine();
+		}
 	}
-	
 
 	//Loops through an output array list for book titles
 	//returns true if a book title appears once in the list, false otherwise
