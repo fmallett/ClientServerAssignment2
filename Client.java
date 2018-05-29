@@ -1,5 +1,3 @@
-package main.ClientServerAssignment2;
-
 import java.io.*;
 import java.util.LinkedList;
 
@@ -71,30 +69,8 @@ public class Client {
         //Iterates through the results given by the server
         for (String currentLine : temp) {
             currentLine = currentLine.substring(1, currentLine.length()-1);
-            currentLine = removeLinkedListCommas(currentLine);
+            currentLine = currentLine.replaceAll(", ", " ");
             results.add(currentLine);
         }
-    }
-
-    private String removeLinkedListCommas(String test) {
-        boolean commasRemaining = true;
-        String result = "";
-        String concat = test;
-
-        while (commasRemaining) {
-            int index = concat.indexOf(",");
-
-            if ((concat.length()-1 <= index) || (index < 0)) {
-                return result+concat;
-            } else if (concat.charAt(index+1) == ',') {
-                result += concat.substring(0, index+1);
-                concat = concat.substring(index+2);
-            } else {
-                result += concat.substring(0, index);
-                concat = concat.substring(index+1);
-            }
-        }
-
-        return result;
     }
 }
